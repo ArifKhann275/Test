@@ -1,0 +1,31 @@
+from PIL import Image
+import matplotlib.pyplot as plt
+import os
+
+# Load the image
+img = Image.open('dev.jpg')
+
+# Convert to grayscale
+gray_img = img.convert('L')
+
+# Save the grayscale image
+output_path = 'grayscale_dev.jpg'
+gray_img.save(output_path)
+
+# Calculate uncompressed size from dimensions and bpp
+width, height = gray_img.size
+bpp = 8  # grayscale image has 8 bits per pixel
+uncompressed_size_bytes = (width * height * bpp) / 8  # convert bits to bytes
+uncompressed_size_kb = uncompressed_size_bytes / 1024  # bytes to KB
+
+print(f"Uncompressed image size (estimated): {uncompressed_size_kb:.2f} KB")
+
+# Get and print the actual file size on disk
+file_size = os.path.getsize(output_path) / 1024
+print(f"Actual saved file size: {file_size:.2f} KB")
+
+# Display the grayscale image
+plt.imshow(gray_img, cmap='gray')
+plt.title("Grayscale Image (Pillow)")
+plt.axis('off')
+plt.show()
